@@ -6,6 +6,7 @@ import random
 
 questionFile = "./json/{}.json"
 nsFilenames = ["ns/range1"]
+quizSize = 20
 
 # ns問題
 def ns_select(type, variety, question, choices, answer):
@@ -28,10 +29,11 @@ def ns_select(type, variety, question, choices, answer):
         else:
             print("--- 不正解… ---")
             print(answer)
-        return True
+            return 2
+        return 1
     except:
         # 出題失敗
-        return False
+        return 0
 
 def ns_sort(type, variety, question, choices, answer):
     try:
@@ -50,10 +52,11 @@ def ns_sort(type, variety, question, choices, answer):
         else:
             print("--- 不正解… ---")
             print(answer)
-        return True
+            return 2
+        return 1
     except:
         # 出題失敗
-        return False
+        return 0
 
 def ns_equal(type, variety, question, answer):
     try:
@@ -68,10 +71,11 @@ def ns_equal(type, variety, question, answer):
         else:
             print("--- 不正解… ---")
             print(answer)
-        return True
+            return 2
+        return 1
     except:
         # 出題失敗
-        return False
+        return 0
 
 def ns_tof(type, variety, question, choices, answer):
     try:
@@ -95,13 +99,15 @@ def ns_tof(type, variety, question, choices, answer):
             else:
                 print("--- 不正解… ---")
                 print("({0}) {1}".format(**answer))
+                return 2
         else:
             print("--- 不正解… ---")
             print("({0}) {1}".format(**answer))
-        return True
+            return 2
+        return 1
     except:
         # 出題失敗
-        return False
+        return 0
 
 def ns_fill(type, variety, question, answer):
     try:
@@ -120,31 +126,62 @@ def ns_fill(type, variety, question, answer):
                 for aa in answer:
                     print("{1}, ".format(aa), end="")
                 print()
-                break
-        return True
+                return 2
+        return 1
     except:
         # 出題失敗
-        return False
+        return 0
 
 def ns_quiz(data):
     type = data["type"]
-    istake = False
+    result = 0
 
     if type=="select":
-        istake = ns_select(**data)
+        result = ns_select(**data)
     elif type=="sort":
-        istake = ns_sort(**data)
+        result = ns_sort(**data)
     elif type=="equal":
-        istake = ns_equal(**data)
+        result = ns_equal(**data)
     elif type=="tof":
-        istake = ns_tof(**data)
+        result = ns_tof(**data)
     elif type=="fill":
-        istake = ns_fill(**data)
+        result = ns_fill(**data)
     
-    return istake
+    return result
 
 def main():
-    print("hello")
+    print("選択肢: ", end="")
+    for i in range(len(nsFilenames)):
+        print("({0}) {1}, ".format(i+1, nsFilenames[i]), end="")
+    print("\n")
+    selectFile = -10000
+    while int(selectFile) >= 0 and int(selectFile) < len(nsFilenames):
+        selectFile = input("select File number: ")
+    
+    with open(questionFile.format(nsFilenames[selectFile]), "r", encoding="utf-8") as qf:
+        data_dic = json.load(qf)
+        
+        while True:
+            done_quiz = set([])
+            numAns = 0
+            i = 0
+            while(i < quizSize):
+                rnd = random.randrange(len(data_dic))
+                if rnd not in done_quiz:
+                    isb = ns_quiz(data_dic[rnd])
+                    if isb==1 :
+                        numAns += 1
+                        i += 1
+                    elif isb==2 :
+                        i += 1
+                elif len(done_quiz) > len(data_dic):
+                    break
+                done_quiz.add(rnd)
+            print("result: {0}/{1}".format(numAns, quizSize))
+            while True:
+                sel = input("0:good bye. else:continue.  : ").strip()
+                if sel=="0":
+                    break
 
 if __name__=="__main__":
     main()
