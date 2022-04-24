@@ -22,6 +22,56 @@ def reader(data):
                 data.append(line.append(variety))
     return data
 
+def changer(deta):
+    json_data = []
+
+    # ns/ のフォーマット
+    for line in data:
+        if line[1]=="select":
+            json_data.append({
+                "idx" : int(line[0]),
+                "type" : line[1],
+                "variety" : line.pop(),
+                "question" : line[2],
+                "choices" : line[4:int(line[3])],
+                "answer" : int(line[-1])
+            })
+        elif line[1]=="sort":
+            json_data.append({
+                "idx" : int(line[0]),
+                "type" : line[1],
+                "variety" : line.pop(),
+                "question" : line[2],
+                "choices" : line[4:int(line[3])],
+                "answer" : line[-1]
+            })
+        elif line[1]=="equal":
+            json_data.append({
+                "idx" : int(line[0]),
+                "type" : line[1],
+                "variety" : line.pop(),
+                "question" : [line[2], line[3]],
+                "answer" : int(line[-1])
+            })
+        elif line[1]=="tof":
+            json_data.append({
+                "idx" : int(line[0]),
+                "type" : line[1],
+                "variety" : line.pop(),
+                "question" : line[2],
+                "choices" : line[4:int(line[3])],
+                "answer" : [int(line[-2]), line[-1]]
+            })
+        elif line[1]=="fill":
+            json_data.append({
+                "idx" : int(line[0]),
+                "type" : line[1],
+                "variety" : line.pop(),
+                "question" : line[2],
+                "answer" : line[4:int(line[3])]
+            })
+        
+
 def writer(data):
     try:
         # すでにjsonファイルが生成済みの場合，複製(.sample)を作成する
@@ -37,7 +87,8 @@ def writer(data):
 
 def main():
     data = reader([])
-    writer(data)
+    json_data = changer(data)
+    writer(json_data)
     print("finish")
 
 if __name__=="__main__":
