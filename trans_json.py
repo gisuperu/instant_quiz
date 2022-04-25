@@ -42,7 +42,7 @@ def changer(deta):
                 "type" : line[1],
                 "variety" : line.pop(),
                 "question" : line[2],
-                "choices" : line[4:int(line[3])],
+                "choices" : line[4:4+int(line[3])],
                 "answer" : line[-1]
             })
         elif line[1]=="equal":
@@ -51,7 +51,7 @@ def changer(deta):
                 "type" : line[1],
                 "variety" : line.pop(),
                 "question" : [line[2], line[3]],
-                "answer" : int(line[-1])
+                "answer" : line[5:5+int(line[4])]
             })
         elif line[1]=="tof":
             json_data.append({
@@ -59,7 +59,7 @@ def changer(deta):
                 "type" : line[1],
                 "variety" : line.pop(),
                 "question" : line[2],
-                "choices" : line[4:int(line[3])],
+                "choices" : line[4:4+int(line[3])],
                 "answer" : [int(line[-2]), line[-1]]
             })
         elif line[1]=="fill":
@@ -68,7 +68,7 @@ def changer(deta):
                 "type" : line[1],
                 "variety" : line.pop(),
                 "question" : line[2],
-                "answer" : line[4:int(line[3])]
+                "answer" : line[4:4+int(line[3])]
             })
         
 

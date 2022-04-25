@@ -63,15 +63,19 @@ def ns_equal(type, variety, question, answer):
         # 出題
         # print("問題種別: {0}, ジャンル: {1}".format(type, variety))
         print("問題種別: {0}".format(type))
-        print("Q: {0}, {1}".format(**question))
+        print("Q: {0}\n  {1}".format(**question))
         # 解答
-        ans = input("answer(String): ").strip()
-        if ans==answer:
-            print("--- 正解！ ---")
-        else:
-            print("--- 不正解… ---")
-            print(answer)
-            return 2
+        for i in range(len(answer)):
+            ans = input("{}. answer: ".format(i)).strip()
+            if ans==answer[i]:
+                print("--- 正解！ ---")
+            else:
+                print("--- 不正解… ---")
+                print("答え: ", end="")
+                for aa in answer:
+                    print("{1}, ".format(aa), end="")
+                print()
+                return 2
         return 1
     except:
         # 出題失敗
