@@ -14,19 +14,22 @@ def reader(data):
     # importFileからデータを抽出する
     with open(importFile, "r", encoding="utf-8") as imf:
         variety = "undefined"
-        for dataline in imf:
-            line = [str(s.strip()) for s in dataline.split(',')]
-            if len(line)==0:
+        reader = csv.reader(imf)
+        for dataline in reader:
+            line = [str(s.strip()) for s in dataline]
+            # line = dataline
+            if len(line)==1:
                 variety = line[0]
             else:
-                data.append(line.append(variety))
+                line.append(variety)
+                data.append(line)
     return data
 
 def changer(deta):
     json_data = []
 
     # ns/ のフォーマット
-    for line in data:
+    for line in deta:
         if line[1]=="select":
             json_data.append({
                 "idx" : int(line[0]),
@@ -87,7 +90,8 @@ def writer(data):
 
 def main():
     data = reader([])
-    json_data = changer(data)
+    print(data)
+    json_data = changer(data[:30])
     writer(json_data)
     print("finish")
 
