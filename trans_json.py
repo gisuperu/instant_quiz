@@ -30,49 +30,54 @@ def changer(deta):
 
     # ns/ のフォーマット
     for line in deta:
-        if line[1]=="select":
-            json_data.append({
-                "idx" : int(line[0]),
-                "type" : line[1],
-                "variety" : line.pop(),
-                "question" : line[2],
-                "choices" : line[4:int(line[3])],
-                "answer" : int(line[-1])
-            })
-        elif line[1]=="sort":
-            json_data.append({
-                "idx" : int(line[0]),
-                "type" : line[1],
-                "variety" : line.pop(),
-                "question" : line[2],
-                "choices" : line[4:4+int(line[3])],
-                "answer" : line[-1]
-            })
-        elif line[1]=="equal":
-            json_data.append({
-                "idx" : int(line[0]),
-                "type" : line[1],
-                "variety" : line.pop(),
-                "question" : [line[2], line[3]],
-                "answer" : line[5:5+int(line[4])]
-            })
-        elif line[1]=="tof":
-            json_data.append({
-                "idx" : int(line[0]),
-                "type" : line[1],
-                "variety" : line.pop(),
-                "question" : line[2],
-                "choices" : line[4:4+int(line[3])],
-                "answer" : [int(line[-2]), line[-1]]
-            })
-        elif line[1]=="fill":
-            json_data.append({
-                "idx" : int(line[0]),
-                "type" : line[1],
-                "variety" : line.pop(),
-                "question" : line[2],
-                "answer" : line[4:4+int(line[3])]
-            })
+        try:
+            if line[1]=="select":
+                json_data.append({
+                    "idx" : int(line[0]),
+                    "type" : line[1],
+                    "variety" : line.pop(),
+                    "question" : line[2],
+                    "choices" : line[4:4+int(line[3])],
+                    "answer" : int(line[-1])
+                })
+            elif line[1]=="sort":
+                json_data.append({
+                    "idx" : int(line[0]),
+                    "type" : line[1],
+                    "variety" : line.pop(),
+                    "question" : line[2],
+                    "choices" : line[4:4+int(line[3])],
+                    "answer" : line[-1]
+                })
+            elif line[1]=="equal":
+                json_data.append({
+                    "idx" : int(line[0]),
+                    "type" : line[1],
+                    "variety" : line.pop(),
+                    "question" : [line[2], line[3]],
+                    "answer" : line[5:5+int(line[4])]
+                })
+            elif line[1]=="tof":
+                json_data.append({
+                    "idx" : int(line[0]),
+                    "type" : line[1],
+                    "variety" : line.pop(),
+                    "question" : line[2],
+                    "choices" : line[4:4+int(line[3])],
+                    "answer" : [int(line[-2]), line[-1]]
+                })
+            elif line[1]=="fill":
+                json_data.append({
+                    "idx" : int(line[0]),
+                    "type" : line[1],
+                    "variety" : line.pop(),
+                    "question" : line[2],
+                    "answer" : line[4:4+int(line[3])]
+                })
+        except ValueError:
+            import traceback
+            traceback.print_exc()
+            print(line[0], " is error")
     return json_data
 
 def writer(data):
@@ -92,7 +97,7 @@ def writer(data):
 def main():
     data = reader([])
     # print(data)
-    json_data = changer(data[:30])
+    json_data = changer(data)
     # print(json_data)
     writer(json_data)
     print("finish")
