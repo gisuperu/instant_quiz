@@ -4,7 +4,7 @@ import json
 import csv
 
 
-filename = "ns/range1"
+filename = "ns/range2"
 
 importFile = "./org/" + filename + ".csv"
 exportFile = "./json/" + filename +".json"
@@ -73,14 +73,15 @@ def changer(deta):
                 "question" : line[2],
                 "answer" : line[4:4+int(line[3])]
             })
-        
+    return json_data
 
 def writer(data):
     try:
         # すでにjsonファイルが生成済みの場合，複製(.sample)を作成する
         with open(exportFile, "r", encoding="utf-8") as exf:
             with open(exportFile+".sample", "w", encoding="utf-8") as exfsample:
-                exfsample.write(exf)
+                for line in exf:
+                    exfsample.write(line)
     except FileNotFoundError:
         print("new create a json file!")
 
@@ -90,8 +91,9 @@ def writer(data):
 
 def main():
     data = reader([])
-    print(data)
+    # print(data)
     json_data = changer(data[:30])
+    # print(json_data)
     writer(json_data)
     print("finish")
 

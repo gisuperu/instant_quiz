@@ -5,7 +5,7 @@ import random
 
 
 questionFile = "./json/{}.json"
-nsFilenames = ["ns/range1"]
+nsFilenames = ["ns/range2"]
 quizSize = 20
 
 # ns問題
