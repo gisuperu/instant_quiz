@@ -27,6 +27,7 @@ def ns_select(idx, type, variety, question, choices, answer):
                 break
         if ans==str(answer):
             print("--- 正解！ ---")
+            print("{0}答え: {1}".format(idx, answer))
         else:
             print("--- 不正解… ---")
             print("{0}答え: {1}".format(idx, answer))
@@ -51,6 +52,7 @@ def ns_sort(idx, type, variety, question, choices, answer):
         ans = input("answer(String): ").strip()
         if ans==str(answer):
             print("--- 正解！ ---")
+            print("{0}答え: {1}".format(idx, answer))
         else:
             print("--- 不正解… ---")
             print("{0}答え: {1}".format(idx, answer))
@@ -72,6 +74,10 @@ def ns_equal(idx, type, variety, question, answer):
             ans = input("{}. answer: ".format(i)).strip()
             if ans==str(answer[i]):
                 print("--- 正解！ ---")
+                print("{0}答え: ".format(idx), end="")
+                for aa in answer:
+                    print("{0}, ".format(aa), end="")
+                print()
             else:
                 print("--- 不正解… ---")
                 print("{0}答え: ".format(idx), end="")
@@ -104,6 +110,8 @@ def ns_tof(idx, type, variety, question, choices, answer):
             ans = input("answer(String): ")
             if ans==str(answer[1]):
                 print("--- 正解！ ---")
+                print("{0}答え: ".format(idx), end="")
+                print("({0}) {1}".format(answer[0], answer[1]))
             else:
                 print("--- 不正解… ---")
                 print("{0}答え: ".format(idx), end="")
@@ -131,6 +139,10 @@ def ns_fill(idx, type, variety, question, answer):
             ans = input("{}. answer(String): ".format(i)).strip()
             if ans==answer[i]:
                 print("--- 正解！ ---")
+                print("{0}答え: ".format(idx), end="")
+                for aa in answer:
+                    print("{0}, ".format(aa), end="")
+                print()
             else:
                 print("--- 不正解… ---")
                 print("{0}答え: ".format(idx), end="")
@@ -151,14 +163,14 @@ def ns_quiz(data):
     print("\n", end="")
     if type=="select":
         result = ns_select(**data)
-    elif type=="sort":
-        result = ns_sort(**data)
-    elif type=="equal":
-        result = ns_equal(**data)
-    elif type=="tof":
-        result = ns_tof(**data)
-    elif type=="fill":
-        result = ns_fill(**data)
+    # elif type=="sort":
+    #     result = ns_sort(**data)
+    # elif type=="equal":
+    #     result = ns_equal(**data)
+    # elif type=="tof":
+    #     result = ns_tof(**data)
+    # elif type=="fill":
+    #     result = ns_fill(**data)
     else:
         result = 0
     print("\n", end="")
